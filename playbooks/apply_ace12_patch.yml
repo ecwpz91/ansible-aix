@@ -1,0 +1,24 @@
+---
+- name: Apply Fix Pack to ACE12 System
+  hosts: all
+  vars:
+    shared_mount_path: "/mnt/shared/fixpacks/latest_fixpack.tar.gz"
+    fixpack_local_path: "/tmp/latest_fixpack.tar.gz"
+    fixpack_extracted_path: "/tmp/latest_fixpack"
+    ace12_service_name: "ACE12Service"
+  tasks:
+    - name: Create unique id for the environment
+      block:
+        - name: create unique id for demo instance
+          ansible.builtin.shell:
+            cmd: uuidgen | cut -c1-4
+          register: demo_uuid_raw
+        - name: set unique id fact
+          ansible.builtin.set_fact:
+            demo_uuid: "{{ demo_uuid_raw.stdout }}"
+      when:
+        - demo_uuid is not defined
+
+    - name: Apply Patch to ACE 12 on AIX
+      ansible.builtin.include_role:
+        name: ../roles/ace12_patch
