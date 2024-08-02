@@ -1,11 +1,6 @@
 ---
 - name: Apply Fix Pack to ACE12 System
   hosts: all
-  vars:
-    shared_mount_path: "/mnt/shared/fixpacks/latest_fixpack.tar.gz"
-    fixpack_local_path: "/tmp/latest_fixpack.tar.gz"
-    fixpack_extracted_path: "/tmp/latest_fixpack"
-    ace12_service_name: "ACE12Service"
   tasks:
     - name: Create unique id for the environment
       block:
