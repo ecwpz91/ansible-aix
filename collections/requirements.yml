@@ -1,12 +1,12 @@
 ---
 collections:
-  - name: ansible.controller
-    version: 4.3.0
-  - name: ansible.netcommon
-    version: 5.0.0
-  - name: redhat_cop.controller_configuration
-    version: 2.2.5
+  # - name: ansible.controller
+  #   version: 4.3.0
+  # - name: ansible.netcommon
+  #   version: 5.0.0
+  # - name: redhat_cop.controller_configuration
+  #   version: 2.2.5
   - name: community.general
   # ibm
-  - name: ibm.power_aix
-    version: 1.7.2
+  # - name: ibm.power_aix
+  #   version: 1.7.2
