@@ -1,46 +1,11 @@
 ---
-- name: Copy Fixpack from Shared Mount
+- name: Copy ACE version files
   copy:
-    src: "{{ shared_mount_path }}"
-    dest: "{{ fixpack_local_path }}"
+    src: "{{ ace_files }}/{{ ace_version }}/ace-{{ ace_version }}"
+    dest: "{{ install_dir }}/ace-{{ ace_version }}"
+    remote_src: yes
 
-- name: Stop ACE 12 Services
-  command: "stopsrc -s {{ ace12_service_name }}"
-  register: stop_service_result
-
-- name: Verify Service Stopped
-  wait_for:
-    path: "/var/ace12/{{ ace12_service_name }}.pid"
-    state: absent
-    timeout: 30
-
-- name: Extract the Fixpack
-  command: "gunzip -c {{ fixpack_local_path }} | tar -xvf - -C /tmp"
+- name: Change directory to the new ACE version and run make command
+  command: "./ace make registry global accept license silently"
   args:
-    chdir: "/tmp"
-
-- name: Apply Patch
-  command: "./install_fixpack.sh"
-  args:
-    chdir: "{{ fixpack_extracted_path }}"
-  register: patch_result
-
-- name: Start ACE 12 Services
-  command: "startsrc -s {{ ace12_service_name }}"
-  register: start_service_result
-
-- name: Verify Service Started
-  wait_for:
-    path: "/var/ace12/{{ ace12_service_name }}.pid"
-    state: present
-    timeout: 30
-
-- name: Verify Application
-  uri:
-    url: "http://localhost:8080/ace12/healthcheck"
-    return_content: yes
-  register: healthcheck
-
-- name: Display Healthcheck Result
-  debug:
-    msg: "{{ healthcheck.content }}"
+    chdir: "{{ install_dir }}/ace-{{ ace_version }}"
