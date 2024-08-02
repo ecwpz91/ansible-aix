@@ -1,0 +1,8 @@
+---
+ace_version: ""
+ace_files: ""
+install_dir: ""
+new_profile: "/home/mqsi/.profile"
+updated_profile: "/home/mqsi/.profile_new"
+bkp_profile: "/home/mqsi/.profile.bkp"
+new_ver: "ace-{{ ace_version }}"
